@@ -75,7 +75,7 @@ end
 
 
 # Target_words are joined and alphabetically ordered to find match with input matrix
-def dance_basanti (target_word, matrix, ans_arr_el, index, track, trace)	
+def unordered_match (target_word, matrix, ans_arr_el, index, track, trace)	
 	if index == 0 
 		$seed[ans_arr_el[0][0]][:num_groups][ans_arr_el[0][1]].each do |word|
 			temp_word = track + word 
@@ -89,7 +89,7 @@ def dance_basanti (target_word, matrix, ans_arr_el, index, track, trace)
 		$seed[ans_arr_el[index][0]][:num_groups][ans_arr_el[index][1]].each do |word|
 			c = trace.dup
 			c.push(word)
-			dance_basanti(target_word, matrix, ans_arr_el, index - 1, track + word, c)						
+			unordered_match(target_word, matrix, ans_arr_el, index - 1, track + word, c)						
 		end		
 	end	
 end
@@ -114,7 +114,7 @@ def solver (seed_char, blanks_words_sizes, matrix)
 	
 	# Finds match for complete set of words from skynet solutions
 	$answer[:trace].each do |answer_arr_el|				
-		dance_basanti(sorted_seed_char, matrix, answer_arr_el, answer_arr_el.length - 1, "", [])
+		unordered_match(sorted_seed_char, matrix, answer_arr_el, answer_arr_el.length - 1, "", [])
 		# Can be ignored
 		$ops += $seed[answer_arr_el[0][0]][:num_groups][answer_arr_el[0][1]].length *
 			$seed[answer_arr_el[1][0]][:num_groups][answer_arr_el[1][1]].length *
